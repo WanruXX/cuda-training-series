@@ -24,14 +24,14 @@ __global__ void reduce(float *gdata, float *out, size_t n){
      size_t idx = threadIdx.x+blockDim.x*blockIdx.x;
 
      while (idx < n) {  // grid stride loop to load data
-        sdata[tid] += gdata[idx];
+        sdata[tid] = sdata[tid]>gdata[idx]? sdata[tid]:gdata[idx];
         idx += gridDim.x*blockDim.x;  
         }
 
      for (unsigned int s=blockDim.x/2; s>0; s>>=1) {
         __syncthreads();
         if (tid < s)  // parallel sweep reduction
-            sdata[tid] += sdata[tid + s];
+            sdata[tid] = sdata[tid]>sdata[tid+s]? sdata[tid]:sdata[tid+s];
         }
      if (tid == 0) out[blockIdx.x] = sdata[0];
   }
@@ -55,9 +55,11 @@ int main(){
   //cuda processing sequence step 1 is complete
   reduce<<<blocks, BLOCK_SIZE>>>(d_A, d_sums, N); // reduce stage 1
   cudaCheckErrors("reduction kernel launch failure");
+
   reduce<<<1, BLOCK_SIZE>>>(d_sums, d_A, blocks); // reduce stage 2
   cudaCheckErrors("reduction kernel launch failure");
   //cuda processing sequence step 2 is complete
+
   // copy vector sums from device to host:
   cudaMemcpy(h_sum, d_A, sizeof(float), cudaMemcpyDeviceToHost);
   //cuda processing sequence step 3 is complete

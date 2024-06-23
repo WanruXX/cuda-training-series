@@ -20,8 +20,8 @@ struct list_elem {
 
 template <typename T>
 void alloc_bytes(T &ptr, size_t num_bytes){
-
-  ptr = (T)malloc(num_bytes);
+  // ptr = (T)malloc(num_bytes);
+  cudaMallocManaged(&ptr, num_bytes);
 }
 
 __host__ __device__

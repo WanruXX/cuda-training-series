@@ -122,7 +122,23 @@ int main(){
   cudaCheckErrors("atomic reduction kernel execution failure or cudaMemcpy H2D failure");
   if (*h_sum != (float)N) {printf("atomic sum reduction incorrect!\n"); return -1;}
   printf("atomic sum reduction correct!\n");
+
+
   const int blocks = 640;
+//   cudaMemset(d_sum, 0, sizeof(float));
+//   cudaCheckErrors("cudaMemset failure");
+//   //cuda processing sequence step 1 is complete
+//   reduce<<<blocks, BLOCK_SIZE>>>(d_A, d_sum);
+//   cudaCheckErrors("reduction w/atomic kernel launch failure");
+//   //cuda processing sequence step 2 is complete
+//   // copy vector sums from device to host:
+//   cudaMemcpy(h_sum, d_sum, sizeof(float), cudaMemcpyDeviceToHost);
+//   //cuda processing sequence step 3 is complete
+//   cudaCheckErrors("reduction kernel execution failure or cudaMemcpy H2D failure");
+//   if (*h_sum != (float)N) {printf("reduction w/atomic sum incorrect!\n"); return -1;}
+//   printf("reduction sum correct!\n");
+
+
   cudaMemset(d_sum, 0, sizeof(float));
   cudaCheckErrors("cudaMemset failure");
   //cuda processing sequence step 1 is complete
@@ -135,6 +151,8 @@ int main(){
   cudaCheckErrors("reduction w/atomic kernel execution failure or cudaMemcpy H2D failure");
   if (*h_sum != (float)N) {printf("reduction w/atomic sum incorrect!\n"); return -1;}
   printf("reduction w/atomic sum correct!\n");
+
+
   cudaMemset(d_sum, 0, sizeof(float));
   cudaCheckErrors("cudaMemset failure");
   //cuda processing sequence step 1 is complete
