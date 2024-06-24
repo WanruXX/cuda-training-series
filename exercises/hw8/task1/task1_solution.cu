@@ -75,6 +75,8 @@ void host_transpose( const int m, const double * const a, double *c )
 
 } /* end host_dgemm */
 
+
+
 int main( int argc, char *argv[] )
 {
 
