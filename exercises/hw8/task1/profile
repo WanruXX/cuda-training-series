@@ -1,1 +1,9 @@
 nv-nsight-cu-cli --metrics l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum,l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum,l1tex__t_sectors_pipe_lsu_mem_global_op_st.sum,l1tex__t_requests_pipe_lsu_mem_global_op_st.sum ./task1
+
+# Matrix size is 4096
+# Total memory required per matrix is 134.217728 MB
+# Total time CPU is 0.224303 sec
+# Performance is 1.196752 GB/s
+# Total time GPU is 0.000858 sec
+# Performance is 312.914363 GB/s
+# PASS
